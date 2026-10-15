@@ -1,0 +1,25 @@
+
+-- FOMS - Financial Operations & Monitoring System
+-- Transaction table
+-- Target platform: IBM i 7.5 / Db2 for i
+
+CREATE TABLE MGHIGLIA1.FOMSTXN (
+    TXN_ID     INTEGER NOT NULL,
+    ACCOUNT_ID INTEGER NOT NULL,
+    AMOUNT     DECIMAL(15, 2),
+    TXN_TYPE   CHAR(1),
+    TXN_DATE   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    STATUS     CHAR(1) DEFAULT 'P',
+
+    CONSTRAINT FOMSPK
+        PRIMARY KEY (TXN_ID),
+
+    CONSTRAINT FOMSTXNC1
+        CHECK (TXN_TYPE IN ('D', 'C')),
+
+    CONSTRAINT FOMSTXNC2
+        CHECK (AMOUNT > 0),
+
+    CONSTRAINT FOMSTXNC3
+        CHECK (STATUS IN ('P', 'C', 'E'))
+);
